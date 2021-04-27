@@ -1,7 +1,29 @@
 when-do-reading-comprehension-models-learn
 ==============================
 
-Repository for MSc Machine Learning final project titled 'When do Reading Comprehension Models Learn?'
+Repository for MSc Machine Learning thesis titled 'When do Reading Comprehension Models Learn?'
+
+Set-up
+------------
+
+```bash
+# Create environment 
+conda create -n rclearn python=3.7 -y
+conda activate rclearn
+
+# Clone own copy of `huggingface/transformers` (as of 27/04/21):
+cd ..
+git clone https://github.com/stevieg3/mytransformers.git
+
+# Install library from source
+cd mytransformers
+pip install .
+
+# Install other packages
+cd ../when-do-reading-comprehension-models-learn
+pip install -r requirements.txt
+```
+
 
 Project Organization
 ------------
