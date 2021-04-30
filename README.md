@@ -17,7 +17,7 @@ git clone https://github.com/stevieg3/mytransformers.git
 
 # Install library from source
 cd mytransformers
-pip install .
+pip install . -e
 
 # Install other packages
 cd ../when-do-reading-comprehension-models-learn
