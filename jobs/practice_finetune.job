@@ -18,4 +18,27 @@ export LANGUAGE="en_US:en"
 
 cd $HOME/Github/when-do-reading-comprehension-models-learn
 
-test $SGE_TASK_ID -eq 1 && sleep 10 && python src/models/practice_finetune/run_qa.py --model_name_or_path bert-base-uncased --dataset_name squad --do_train --do_eval --per_device_train_batch_size 2 --learning_rate 3e-5 --num_train_epochs 2 --max_seq_length 384 --doc_stride 128 --output_dir /tmp/debug_squad/ --max_train_samples 1024 --max_eval_samples 1024
+test sleep 10 && python src/models/practice_finetune/run_qa.py --model_name_or_path bert-base-uncased --dataset_name squad --do_train --do_eval --per_device_train_batch_size 2 --learning_rate 3e-5 --num_train_epochs 2 --max_seq_length 384 --doc_stride 128 --output_dir /tmp/debug_squad/ --max_train_samples 1024 --max_eval_samples 1024
+
+#test $SGE_TASK_ID -eq 1 && sleep 10 && python examples/run_squad.py
+#--model_type bert
+#--model_name_or_path bert-large-uncased-whole-word-masking
+#--do_train
+#--do_eval
+#--do_lower_case
+#--train_file /cluster/project7/max_harderqs/_data/squad_v1.1_harderqs/train.json
+#--predict_file /cluster/project7/max_harderqs/_data/squad_v1.1_harderqs/split_dev_majority.json
+#--learning_rate 3e-5
+#--num_train_epochs 2
+#--max_seq_length 384
+#--doc_stride 128
+#--output_dir /cluster/project7/max_harderqs/projects/jwelbl/harderqs_max/saved_models/mul_bert_squad_splitdev_run_1
+#--per_gpu_train_batch_size=3
+#--gradient_accumulation_steps 4
+#--per_gpu_eval_batch_size=8
+#--save_steps 5000
+#--logging_steps 5000
+#--seed 28
+#--overwrite_cache
+#--overwrite_output_dir
+#--eval_all_checkpoints > mul_bert_squad_splitdev_run_1.log 2>&1
