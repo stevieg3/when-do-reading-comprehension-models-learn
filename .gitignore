@@ -1,5 +1,6 @@
 *array.err
 *array.out
+*wandb/
 *outputs/
 *.env
 *.ipynb_checkpoints

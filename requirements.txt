@@ -1,2 +1,2 @@
-# https://github.com/stevieg3/mytransformers/blob/master/examples/pytorch/question-answering/requirements.txt
 datasets >= 1.4.0
+wandb==0.10.31
