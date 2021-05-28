@@ -1,3 +1,5 @@
+*array.err
+*array.out
 *outputs/
 *.env
 *.ipynb_checkpoints

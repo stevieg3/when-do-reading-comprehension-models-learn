@@ -19,6 +19,9 @@ git clone https://github.com/stevieg3/mytransformers.git
 cd mytransformers
 pip install -e .
 
+# Install PyTorch - use conda for CUDA support
+conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
+
 # Install other packages
 cd ../when-do-reading-comprehension-models-learn
 pip install -r requirements.txt
