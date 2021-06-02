@@ -31,7 +31,7 @@ class QuestionAnsweringTrainer(Trainer):
         self.eval_examples = eval_examples
         self.post_process_function = post_process_function
 
-    def evaluate(self, eval_dataset=None, eval_examples=None, ignore_keys=None):
+    def evaluate(self, eval_dataset=None, eval_examples=None, ignore_keys=None, metric_key_prefix="eval"):
         eval_dataset = self.eval_dataset if eval_dataset is None else eval_dataset
         eval_dataloader = self.get_eval_dataloader(eval_dataset)
         eval_examples = self.eval_examples if eval_examples is None else eval_examples
@@ -39,8 +39,9 @@ class QuestionAnsweringTrainer(Trainer):
         # Temporarily disable metric computation, we will do it in the loop here.
         compute_metrics = self.compute_metrics
         self.compute_metrics = None
+        eval_loop = self.prediction_loop if self.args.use_legacy_prediction_loop else self.evaluation_loop
         try:
-            output = self.prediction_loop(
+            output = eval_loop(
                 eval_dataloader,
                 description="Evaluation",
                 # No point gathering the predictions if there are no metrics, otherwise we defer to
@@ -54,6 +55,11 @@ class QuestionAnsweringTrainer(Trainer):
         if self.post_process_function is not None and self.compute_metrics is not None:
             eval_preds = self.post_process_function(eval_examples, eval_dataset, output.predictions)
             metrics = self.compute_metrics(eval_preds)
+
+            # Prefix all keys with metric_key_prefix + '_'
+            for key in list(metrics.keys()):
+                if not key.startswith(f"{metric_key_prefix}_"):
+                    metrics[f"{metric_key_prefix}_{key}"] = metrics.pop(key)
 
             self.log(metrics)
         else:
@@ -72,8 +78,9 @@ class QuestionAnsweringTrainer(Trainer):
         # Temporarily disable metric computation, we will do it in the loop here.
         compute_metrics = self.compute_metrics
         self.compute_metrics = None
+        eval_loop = self.prediction_loop if self.args.use_legacy_prediction_loop else self.evaluation_loop
         try:
-            output = self.prediction_loop(
+            output = eval_loop(
                 predict_dataloader,
                 description="Prediction",
                 # No point gathering the predictions if there are no metrics, otherwise we defer to
