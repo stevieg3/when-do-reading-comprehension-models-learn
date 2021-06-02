@@ -2,6 +2,7 @@
 *array.out
 *wandb/
 *outputs/
+*logs/
 *.env
 *.ipynb_checkpoints
 *.idea
