@@ -36,14 +36,12 @@ test $SGE_TASK_ID -eq 1 && sleep 10 && python src/models/practice_finetune/run_q
     --output_dir $HOME/Github/when-do-reading-comprehension-models-learn/outputs \
     --overwrite_output_dir \
     --overwrite_cache \
-    --logging_steps 10 \
+    --logging_steps 1000 \
     --evaluation_strategy steps \
     --report_to wandb \
-    --run_name trial-run \
-    --save_strategy no \
-    --max_steps 300 \
-    --max_train_samples 32 \
-    --max_eval_samples 64 \
+    --run_name main-run \
+    --save_strategy epoch \
+    --num_train_epochs 2 \
     --warmup_ratio 0.06 \
     --weight_decay 0.01
 
