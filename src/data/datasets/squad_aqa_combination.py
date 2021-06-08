@@ -1,3 +1,7 @@
+"""
+Adapted version of data loading script for SQuAD:
+https://github.com/huggingface/datasets/blob/master/datasets/squad/squad.py
+"""
 # coding=utf-8
 # Copyright 2020 The TensorFlow Datasets Authors and the HuggingFace Datasets Authors.
 #
@@ -20,7 +24,6 @@
 import json
 
 import datasets
-from datasets.tasks import QuestionAnsweringExtractive
 
 
 logger = datasets.logging.get_logger(__name__)
@@ -47,12 +50,6 @@ articles, where the answer to every question is a segment of text, or span, \
 from the corresponding reading passage, or the question might be unanswerable.
 """
 
-_URL = "https://rajpurkar.github.io/SQuAD-explorer/dataset/"
-_URLS = {
-    "train": _URL + "train-v1.1.json",
-    "dev": _URL + "dev-v1.1.json",
-}
-
 
 class SquadConfig(datasets.BuilderConfig):
     """BuilderConfig for SQUAD."""
@@ -66,9 +63,10 @@ class SquadConfig(datasets.BuilderConfig):
         super(SquadConfig, self).__init__(**kwargs)
 
 
-class Squad(datasets.GeneratorBasedBuilder):
+class SquadAQACombination(datasets.GeneratorBasedBuilder):
     """SQUAD: The Stanford Question Answering Dataset. Version 1.1."""
 
+    BUILDER_CONFIG_CLASS = SquadConfig
     BUILDER_CONFIGS = [
         SquadConfig(
             name="plain_text",
@@ -76,6 +74,10 @@ class Squad(datasets.GeneratorBasedBuilder):
             description="Plain text",
         ),
     ]
+
+    def __init__(self, config_data_files, **kwargs):
+        super(SquadAQACombination, self).__init__(**kwargs)
+        self.data_files = config_data_files
 
     def _info(self):
         return datasets.DatasetInfo(
@@ -98,20 +100,15 @@ class Squad(datasets.GeneratorBasedBuilder):
             # and context as input).
             supervised_keys=None,
             homepage="https://rajpurkar.github.io/SQuAD-explorer/",
-            citation=_CITATION,
-            task_templates=[
-                QuestionAnsweringExtractive(
-                    question_column="question", context_column="context", answers_column="answers"
-                )
-            ],
+            citation=_CITATION
         )
 
     def _split_generators(self, dl_manager):
-        downloaded_files = dl_manager.download_and_extract(_URLS)
+        downloaded_files = dl_manager.download_and_extract(self.data_files)
 
         return [
-            datasets.SplitGenerator(name=datasets.Split.TRAIN, gen_kwargs={"filepath": downloaded_files["train"]}),
-            datasets.SplitGenerator(name=datasets.Split.VALIDATION, gen_kwargs={"filepath": downloaded_files["dev"]}),
+            datasets.SplitGenerator(name=k, gen_kwargs={"filepath": downloaded_files[k]})
+            for k in self.data_files
         ]
 
     def _generate_examples(self, filepath):
@@ -119,13 +116,14 @@ class Squad(datasets.GeneratorBasedBuilder):
         logger.info("generating examples from = %s", filepath)
         with open(filepath, encoding="utf-8") as f:
             squad = json.load(f)
+            id_ = 0
             for article in squad["data"]:
                 title = article.get("title", "").strip()
                 for paragraph in article["paragraphs"]:
                     context = paragraph["context"].strip()
                     for qa in paragraph["qas"]:
                         question = qa["question"].strip()
-                        id_ = qa["id"]
+                        qid = qa["id"]
 
                         answer_starts = [answer["answer_start"] for answer in qa["answers"]]
                         answers = [answer["text"].strip() for answer in qa["answers"]]
@@ -136,9 +134,11 @@ class Squad(datasets.GeneratorBasedBuilder):
                             "title": title,
                             "context": context,
                             "question": question,
-                            "id": id_,
+                            "id": qid,
                             "answers": {
                                 "answer_start": answer_starts,
                                 "text": answers,
                             },
                         }
+
+                        id_ += 1
