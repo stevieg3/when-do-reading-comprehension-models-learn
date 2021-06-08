@@ -25,8 +25,19 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 # Install other packages
 cd ../when-do-reading-comprehension-models-learn
 pip install -r requirements.txt
+
+# Download Adversarial QA files (to construct custom dataset combinations)
+wget -P data/external/ "https://adversarialqa.github.io/data/aqa_v1.0.zip"
+unzip data/external/aqa_v1.0.zip -d data/external/aqa_v1.0
+rm data/external/aqa_v1.0.zip
 ```
 
+Create weighted combination datasets
+------------
+```bash
+# 2 copies of SQuAD v1.1 and 3 copies of Adversarial QA dBERT:
+python src/data/generate_dataset_combination.py --num_squad 2 --num_adversarial 3 --adversarial_model bert
+```
 
 Project Organization
 ------------
@@ -66,5 +77,3 @@ Project Organization
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations    
 
 --------
-
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
