@@ -1,0 +1,115 @@
+#!/bin/bash -l
+
+#$ -cwd
+#$ -S /bin/bash
+#$ -l tmem=32G
+#$ -l h_vmem=32G
+#$ -t 1-10
+#$ -l h_rt=24:00:00
+#$ -o /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.out
+#$ -e /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.err
+#$ -l gpu=true
+#$ -l gpu_p100=yes
+
+hostname
+date
+
+# Activate conda environment
+conda activate rclearn
+
+export LANG="en_US.utf8"
+export LANGUAGE="en_US:en"
+
+cd /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn
+
+test $SGE_TASK_ID -eq 1 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-815 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-815 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 2 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-1630 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-1630 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 3 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-2445 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-2445 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 4 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-3260 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-3260 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 5 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-4075 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-4075 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 6 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-4890 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-4890 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 7 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-5705 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-5705 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 8 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-6520 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-6520 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 9 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs/checkpoint-7335 \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-7335 \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+test $SGE_TASK_ID -eq 10 && sleep 10 && python src/models/practice_finetune/run_qa.py \
+    --model_name_or_path /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/outputs \
+    --dataset_name squad_v2 \
+    --do_eval \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/prediction_outputs/checkpoint-final \
+    --overwrite_cache \
+    --version_2_with_negative \
+    --per_device_eval_batch_size 64
+
+date
