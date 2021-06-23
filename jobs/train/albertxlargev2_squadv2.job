@@ -8,7 +8,6 @@
 #$ -o /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.out
 #$ -e /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.err
 #$ -l gpu=true
-#$ -l gpu_p100=yes
 #$ -pe gpu 2
 #$ -R y
 

@@ -1,3 +1,4 @@
+*models/
 *.lock
 *array.err
 *array.out
