@@ -45,7 +45,7 @@ test $SGE_TASK_ID -eq 1 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 100 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup100-seed27.log 2>&1
 
 test $SGE_TASK_ID -eq 2 && sleep 10 && python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py \
@@ -70,7 +70,7 @@ test $SGE_TASK_ID -eq 2 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 100 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup100-seed28.log 2>&1
 
 test $SGE_TASK_ID -eq 3 && sleep 10 && python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py \
@@ -95,7 +95,7 @@ test $SGE_TASK_ID -eq 3 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 100 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup100-seed29.log 2>&1
 
 test $SGE_TASK_ID -eq 4 && sleep 10 && python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py \
@@ -120,7 +120,7 @@ test $SGE_TASK_ID -eq 4 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 0 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup0-seed27.log 2>&1
 
 test $SGE_TASK_ID -eq 5 && sleep 10 && python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py \
@@ -145,7 +145,7 @@ test $SGE_TASK_ID -eq 5 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 0 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup0-seed28.log 2>&1
 
 test $SGE_TASK_ID -eq 6 && sleep 10 && python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py \
@@ -170,7 +170,7 @@ test $SGE_TASK_ID -eq 6 && sleep 10 && python -m torch.distributed.launch --npro
     --max_steps 8200 \
     --warmup_steps 0 \
     --fp16 True \
-    --logging_steps 128 \
+    --logging_steps 896 \
     > logs/albertxlargev2-squadv2-warmup0-seed29.log 2>&1
 
 date
