@@ -24,7 +24,7 @@ for seed in SEEDS:
             f"--dataset_name squad_v2 "
             f"--version_2_with_negative "
             f"--do_eval "
-            f"--per_device_train_batch_size 64 "
+            f"--per_device_eval_batch_size 64 "
             f"--output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/predictions/{e['name'].format(seed)}/checkpoint-{checkpoint} "
             f"--overwrite_output_dir "
             f"--overwrite_cache "
