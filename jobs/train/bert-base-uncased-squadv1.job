@@ -1,0 +1,47 @@
+#!/bin/bash -l
+
+#$ -cwd
+#$ -S /bin/bash
+#$ -l tmem=16G
+#$ -t 1-1
+#$ -l h_rt=72:00:00
+#$ -o /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.out
+#$ -e /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.err
+#$ -l gpu=true
+
+hostname
+date
+
+# Activate conda environment
+conda activate rclearn
+
+export LANG="en_US.utf8"
+export LANGUAGE="en_US:en"
+export WANDB_PROJECT="bert-base-uncased"
+
+cd /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn
+
+
+test $SGE_TASK_ID -eq 1 && sleep 10 && python src/models/run_qa.py \
+    --model_name_or_path bert-base-uncased \
+    --dataset_name squad \
+    --do_train \
+    --do_eval \
+    --per_device_train_batch_size 2 \
+    --gradient_accumulation_steps 16 \
+    --learning_rate 5e-05 \
+    --max_seq_length 512 \
+    --output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/models/cl-experiment/bert-base-uncased-squadv1-seed=27 \
+    --overwrite_output_dir \
+    --overwrite_cache \
+    --evaluation_strategy steps \
+    --save_strategy no \
+    --report_to wandb \
+    --seed 27 \
+    --run_name squadv1-seed=27 \
+    --num_train_epochs 3 \
+    --fp16 True \
+    --logging_steps 100 \
+    > logs/bert-base-uncased-squadv1-seed=27.log 2>&1
+
+date
