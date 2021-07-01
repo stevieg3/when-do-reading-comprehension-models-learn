@@ -42,6 +42,7 @@ def generate_predictions_df():
     """
     Generate DataFrame of predictions by checkpoint and seed from raw JSON output files
     """
+    logging.info('Loading predictions data')
     prediction_filepath_dict = _create_filepath_dict()
 
     predictions_df = pd.DataFrame()
@@ -84,7 +85,7 @@ def generate_metrics_by_category_df(
             list(
                 itertools.product(
                     SEEDS,
-                    np.sort(full_df['num_examples'].unique())[:8],  # TODO full_df['num_examples'].unique(),
+                    full_df['num_examples'].unique(),
                     full_df[category_label].unique()
                 )
             )
@@ -113,6 +114,7 @@ def generate_metrics_by_category_df(
         full_metrics.append(metrics)
 
     full_metrics_df = pd.DataFrame(full_metrics)
+    full_metrics_df['checkpoint'] = full_metrics_df['num_examples'] / BATCH_SIZE
 
     # Merge overall metrics
     full_metrics_df = full_metrics_df.merge(overall_metrics_df, on=['seed', 'checkpoint'])
@@ -198,13 +200,54 @@ def main():
     # ============================= #
     logging.info('Generating plot data')
 
+    # Answerable vs unanswerable
+    logging.info('Answerable vs unanswerable')
+    generate_metrics_by_category_df(
+        full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
+        category_label='unanswerable',
+        save=True,
+        savepath='data/processed/metrics_by_unanswerable-albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384.csv'
+    )
+
     # WWWWWWH
     logging.info('WWWWWWH')
     generate_metrics_by_category_df(
         full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
         category_label='w8h_label',
         save=True,
         savepath='data/processed/metrics_by_w6h-albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384.csv'
+    )
+    
+    # Context length
+    logging.info('Context length')
+    generate_metrics_by_category_df(
+        full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
+        category_label='context_length_bin',
+        save=True,
+        savepath='data/processed/metrics_by_context_length_bin-albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384.csv'
+    )
+
+    # Question length
+    logging.info('Question length')
+    generate_metrics_by_category_df(
+        full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
+        category_label='question_length_bin',
+        save=True,
+        savepath='data/processed/metrics_by_question_length_bin-albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384.csv'
+    )
+
+    # Answer length
+    logging.info('Answer length')
+    generate_metrics_by_category_df(
+        full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
+        category_label='answer_mode_length_bin',
+        save=True,
+        savepath='data/processed/metrics_by_answer_mode_length_bin-albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384.csv'
     )
 
 

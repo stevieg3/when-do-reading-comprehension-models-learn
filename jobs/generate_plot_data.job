@@ -1,0 +1,24 @@
+#!/bin/bash -l
+
+#$ -cwd
+#$ -S /bin/bash
+#$ -l tmem=16G
+#$ -t 1-1
+#$ -l h_rt=5:00:00
+#$ -o /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.out
+#$ -e /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.err
+
+hostname
+date
+
+# Activate conda environment
+conda activate rclearn
+
+export LANG="en_US.utf8"
+export LANGUAGE="en_US:en"
+
+cd /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn
+
+test $SGE_TASK_ID -eq 1 && sleep 10 && python src/analysis/generate_plot_data.py > logs/generate_plot_data.log 2>&1
+
+date
