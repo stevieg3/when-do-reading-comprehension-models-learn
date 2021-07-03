@@ -10,7 +10,8 @@ ADVERSARIAL_NAME = "adversarialqa_d{}"
 ADVERSARIAL_MODEL_TO_FP = {
     'bidaf': 'data/external/aqa_v1.0/1_dbidaf/{}.json',
     'bert': 'data/external/aqa_v1.0/2_dbert/{}.json',
-    'roberta': 'data/external/aqa_v1.0/3_droberta/{}.json'
+    'roberta': 'data/external/aqa_v1.0/3_droberta/{}.json',
+    'adversarialQA': 'data/external/aqa_v1.0/combined/{}.json'
 }
 
 
@@ -21,7 +22,7 @@ def generate_squad_adversarial_combination(num_squad, num_adversarial, adversari
 
     :param num_squad: Number of copies of SQuAD v1.1 to include
     :param num_adversarial: Number of copies of adversarial QA dataset to include
-    :param adversarial_model: One of ['bidaf', 'bert', 'roberta']
+    :param adversarial_model: One of ['bidaf', 'bert', 'roberta', 'adversarialQA']
     :param split: One of ['train', 'dev']
     :param version: Version identifier
     :return: None. Writes new JSON file for constructed dataset
@@ -33,9 +34,9 @@ def generate_squad_adversarial_combination(num_squad, num_adversarial, adversari
         raise ValueError("Invalid `split`. Must be one of ['train', 'dev']")
 
     try:
-        assert adversarial_model in ['bidaf', 'bert', 'roberta']
+        assert adversarial_model in ['bidaf', 'bert', 'roberta', 'adversarialQA']
     except AssertionError:
-        raise ValueError("Invalid `adversarial_model`. Must be one of ['bidaf', 'bert', 'roberta']")
+        raise ValueError("Invalid `adversarial_model`. Must be one of ['bidaf', 'bert', 'roberta', 'adversarialQA']")
 
     # Load SQuAD data
     with request.urlopen(SQUAD_URL.format(split)) as url:
