@@ -54,6 +54,7 @@ for checkpoint in SAVE_STEPS_SCHEDULE:
         f"--overwrite_output_dir "
         f"--overwrite_cache "
         f"--report_to none "
+        f"> logs/predictions/{e['name'] + '-checkpoint={}'.format(checkpoint) + '.log'} 2>&1"
         for e in experiments
     ]
 
@@ -67,7 +68,7 @@ if __name__ == '__main__':
 #$ -S /bin/bash
 #$ -l tmem=16G
 #$ -t 1-{len(commands)}
-#$ -l h_rt=48:00:00
+#$ -l h_rt=24:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
 #$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
 #$ -l gpu=true
