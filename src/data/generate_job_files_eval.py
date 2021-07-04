@@ -2,13 +2,39 @@
 Script for generating .job files. Adapted version of script written by Max Bartolo.
 """
 
-SAVE_STEPS_SCHEDULE = [1, 2, 4, 8, 16, 32, 64, 128, 256, 384, 512, 640, 768, 896, 1024, 1152, 1280, 1408, 1536, 1664, 1792, 1920, 2048, 2176, 2304, 2432, 2560, 2688, 2816, 2944, 3072, 3200, 3328, 3456, 3584, 3712, 3840, 3968, 4096, 4224, 4352, 4480, 4608, 4736, 4864, 4992, 5120, 5248, 5376, 5504, 5632, 5760, 5888, 6016, 6144, 6272, 6400, 6528, 6656, 6784, 6912, 7040, 7168, 7296, 7424, 7552, 7680, 7808, 7936, 8064, 8192]
-SEEDS = [27, 28, 29]
+SAVE_STEPS_SCHEDULE = [1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 44, 52, 60, 68, 76, 92, 108, 124, 140, 156, 172, 188, 204, 220, 236, 252, 268, 284, 300, 316, 332, 348, 364, 380, 396, 428, 460, 492, 524, 556, 588, 620, 652, 684, 716, 748, 780, 812, 844, 876, 908, 940, 972, 1004, 1036, 1100, 1164, 1228, 1292, 1356, 1420, 1484, 1548, 1612, 1676, 1804, 1932, 2060, 2188, 2316, 2444, 2572, 2700, 2828, 2956, 3084, 3212, 3340, 3468, 3596, 3724, 3852, 3980, 4108, 4236, 4364, 4492, 4620, 4748, 4876, 5004, 5132, 5260, 5388, 5516, 5644, 5772, 5900, 6028, 6156, 6284, 6412, 6540, 6668, 6796, 6924, 7052, 7180, 7308, 7436, 7564, 7692, 7820, 7948]
+MODEL_PATH = '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/models/{}/'
 
 experiments = [
     {
-        'name': 'albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed={}',
-        'model_name_or_path': '/cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/models/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed={}/'
+        'name': 'albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=27',
+        'dataset_name': 'squad_v2',
+        'version_2_with_negative': '--version_2_with_negative '
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'squad_v2',
+        'version_2_with_negative': '--version_2_with_negative '
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=30',
+        'dataset_name': 'squad_v2',
+        'version_2_with_negative': '--version_2_with_negative '
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28',
+        'dataset_name': 'squad',
+        'version_2_with_negative': ''
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'squad',
+        'version_2_with_negative': ''
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30',
+        'dataset_name': 'squad',
+        'version_2_with_negative': ''
     }
 ]
 
@@ -16,23 +42,22 @@ experiments = [
 # Generate the commands
 commands = []
 
-for seed in SEEDS:
-    for checkpoint in SAVE_STEPS_SCHEDULE:
-        this_commands = [
-            f"python src/models/run_qa.py "
-            f"--model_name_or_path {e['model_name_or_path'].format(seed) + f'checkpoint-{checkpoint}'} "
-            f"--dataset_name squad_v2 "
-            f"--version_2_with_negative "
-            f"--do_eval "
-            f"--per_device_eval_batch_size 64 "
-            f"--output_dir /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/predictions/{e['name'].format(seed)}/checkpoint-{checkpoint} "
-            f"--overwrite_output_dir "
-            f"--overwrite_cache "
-            f"--report_to none "
-            for e in experiments
-        ]
+for checkpoint in SAVE_STEPS_SCHEDULE:
+    this_commands = [
+        f"python src/models/run_qa.py "
+        f"--model_name_or_path {MODEL_PATH.format(e['name']) + f'checkpoint-{checkpoint}'} "
+        f"--dataset_name {e['dataset_name']} "
+        f"{e['version_2_with_negative']}"
+        f"--do_eval "
+        f"--per_device_eval_batch_size 128 "
+        f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/{e['name']}/checkpoint-{checkpoint} "
+        f"--overwrite_output_dir "
+        f"--overwrite_cache "
+        f"--report_to none "
+        for e in experiments
+    ]
 
-        commands += this_commands
+    commands += this_commands
 
 
 if __name__ == '__main__':
@@ -42,9 +67,9 @@ if __name__ == '__main__':
 #$ -S /bin/bash
 #$ -l tmem=16G
 #$ -t 1-{len(commands)}
-#$ -l h_rt=24:00:00
-#$ -o /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.out
-#$ -e /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn/array.err
+#$ -l h_rt=48:00:00
+#$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
+#$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
 #$ -l gpu=true
 
 hostname
@@ -56,7 +81,7 @@ conda activate rclearn
 export LANG="en_US.utf8"
 export LANGUAGE="en_US:en"
 
-cd /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension-models-learn
+cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
 """
 
     job_file = headers + '\n\n'
@@ -67,5 +92,5 @@ cd /cluster/project7/max_harderqs/projects/sgeorge/when-do-reading-comprehension
     job_file += '\ndate\n'
 
     # Save the job file
-    with open(f'jobs/eval/albert-xlarge-v2-squadv2.job', 'w') as f:
+    with open(f'jobs/eval/albert-xlarge-v2-more-checkpoints.job', 'w') as f:
         f.write(job_file)
