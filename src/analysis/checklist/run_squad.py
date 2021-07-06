@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("prediction_file", help="Path to the predictions", type=str)
 args = parser.parse_args()
 
-suite_path = '/private/home/maxbartolo/_code/checklist/release_data/squad/squad_suite.pkl'
+suite_path = '/home/sgeorge/Github/checklist/release_data/squad/squad_suite.pkl'
 suite = TestSuite.from_file(suite_path)
 
 # Running tests with precomputed bert predictions:
