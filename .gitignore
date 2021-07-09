@@ -1,3 +1,6 @@
+*checklist_results.txt
+*checklist_results_summary.txt
+*predict_predictions_flat.txt
 *models/
 *.lock
 *array.err
