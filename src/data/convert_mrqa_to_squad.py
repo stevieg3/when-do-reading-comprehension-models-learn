@@ -17,13 +17,18 @@ https://github.com/mrqa/MRQA-Shared-Task-2019#mrqa-format
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("file_paths", help="Comma-separated list of the MRQA files to convert", type=str)
+    parser.add_argument("--file_paths", help="Comma-separated list of the MRQA files to convert", type=str)
+    parser.add_argument("--save_name", help="Name of file to save to (excl. extension)", type=str)
     parser.add_argument("--output_dir", help="Where to store the output files. If not set, will store in the same directory as source", type=str, default='')
     args = parser.parse_args()
 
     file_paths = [os.path.expanduser(f.strip()) for f in args.file_paths.split(',')]
     if not file_paths:
         raise BaseException(f"No file paths detected: {args.file_paths}")
+
+    count = 0
+    version = ''
+    squad_data = []
 
     for file_path in file_paths:
         print(f'Processing {file_path}')
@@ -35,18 +40,16 @@ if __name__ == '__main__':
 
         if not filename.endswith('.jsonl.gz'):
             raise BaseException(f"{filename} is not a recognised MRQA format")
-        filename = filename.replace('.jsonl.gz', '')
+        # filename = filename.replace('.jsonl.gz', '')
 
         # Convert to SQuAD format
-        count = 0
-        version = ''
-        squad_data = []
         with gzip.open(file_path, 'r') as f:
             for line in f:
                 line = json.loads(line.strip())
                 if 'header' in line:
-                    version = line['header']
-                    version['mrqa_conversion'] = 'Converted from MRQA format on {}'.format(datetime.now().strftime('%Y%m%d-%H%M'))
+                    pass
+                    # version = line['header']
+                    # version['mrqa_conversion'] = 'Converted from MRQA format on {}'.format(datetime.now().strftime('%Y%m%d-%H%M'))
                 else:
                     context_dict = {
                         'context': line['context'],
@@ -65,16 +68,16 @@ if __name__ == '__main__':
                     }
                     squad_data.append(data_item)
 
-        # Convert to final squad_dict format
-        squad_dict = {
-            'data': squad_data,
-            'version': version
-        }
+    # Convert to final squad_dict format
+    squad_dict = {
+        'data': squad_data,
+        'version': version
+    }
 
-        # Save
-        output_data_path = os.path.join(file_dirname, filename+'.json')
-        with open(output_data_path, "w") as f:
-            json.dump(squad_dict, f)
+    # Save
+    output_data_path = os.path.join(file_dirname, args.save_name+'.json')
+    with open(output_data_path, "w") as f:
+        json.dump(squad_dict, f)
 
-        print("Successfully converted with {} QAs added. Saved to: {}".format(count, output_data_path))
-        print("-"*3)
+    print("Successfully converted with {} QAs added. Saved to: {}".format(count, output_data_path))
+    print("-"*3)
