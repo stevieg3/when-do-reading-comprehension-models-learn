@@ -57,7 +57,12 @@ if __name__ == '__main__':
                             {
                                 'id': qa['qid'],
                                 'question': qa['question'],
-                                'answers': qa['answers']
+                                'answers': [
+                                    {
+                                        'answer_start': x["char_spans"][0][0],
+                                        'text': x["text"]
+                                    } for x in qa['detected_answers']
+                                ]
                             } for qa in line['qas']]
                     }
                     count += len(context_dict['qas'])
