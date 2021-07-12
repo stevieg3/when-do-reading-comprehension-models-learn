@@ -17,13 +17,7 @@ WARMUP_STEPS = 100
 
 experiments = [
     {
-        'run_name': 'squadv2-wu=100-lr=3e5-bs=32-msl=384-seed={}',
-        'dataset_name': 'squad_v2',
-        'version_2_with_negative': '--version_2_with_negative '
-    },
-    {
-        'run_name': 'squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={}',
-        'dataset_name': 'squad',
+        'run_name': 'mrqa-wu=100-lr=3e5-bs=32-msl=384-seed={}',
         'version_2_with_negative': ''
     }
 ]
@@ -36,7 +30,8 @@ for seed in SEEDS:
     this_commands = [
         f"python src/models/run_qa.py "
         f"--model_name_or_path {MODEL_NAME_OR_PATH} "
-        f"--dataset_name {e['dataset_name']} "
+        f"--train_file /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/data/external/mrqa/train/mrqa_train_squad_format.json "
+	    f"--validation_file /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/data/external/mrqa/dev/mrqa_dev_squad_format.json "
         f"{e['version_2_with_negative']}"   
         f"--do_train "
         f"--do_eval "
@@ -85,6 +80,7 @@ conda activate rclearn
 export LANG="en_US.utf8"
 export LANGUAGE="en_US:en"
 export WANDB_PROJECT="albert-xlarge-v2"
+export HF_HOME=/SAN/intelsys/rclearn/cache
 
 cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
 """
@@ -97,5 +93,5 @@ cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
     job_file += '\ndate\n'
 
     # Save the job file
-    with open(f'jobs/train/albert-xlarge-v2-squadv1-squadv2.job', 'w') as f:
+    with open(f'jobs/train/albert-xlarge-v2-mrqa.job', 'w') as f:
         f.write(job_file)
