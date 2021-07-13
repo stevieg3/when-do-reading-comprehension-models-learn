@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -S /bin/bash
 #$ -l tmem=16G
-#$ -t 1-3
+#$ -t 1-6
 #$ -l h_rt=5:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
 #$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
@@ -24,8 +24,8 @@ cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
 test $SGE_TASK_ID -eq 1 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 2 --model_filepath predictions/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=27 --seed 27 > logs/plot_data/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=27.log 2>&1
 test $SGE_TASK_ID -eq 2 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 2 --model_filepath predictions/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=29 --seed 29 > logs/plot_data/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=29.log 2>&1
 test $SGE_TASK_ID -eq 3 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 2 --model_filepath predictions/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=30 --seed 30 > logs/plot_data/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=30.log 2>&1
-test $SGE_TASK_ID -eq 1 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28 --seed 28 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28.log 2>&1
-test $SGE_TASK_ID -eq 2 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29 --seed 29 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29.log 2>&1
-test $SGE_TASK_ID -eq 3 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30 --seed 30 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30.log 2>&1
+test $SGE_TASK_ID -eq 4 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28 --seed 28 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28.log 2>&1
+test $SGE_TASK_ID -eq 5 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29 --seed 29 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29.log 2>&1
+test $SGE_TASK_ID -eq 6 && sleep 10 && python src/analysis/generate_plot_data.py --squad_version 1 --model_filepath predictions/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30 --seed 30 > logs/plot_data/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30.log 2>&1
 
 date
