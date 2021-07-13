@@ -64,7 +64,7 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 cd ../when-do-reading-comprehension-models-learn
 pip install -r requirements.txt
 
-# Download Adversarial QA files (to construct custom dataset combinations)
+# Download Adversarial QA files (to construct custom dataset combinations)
 wget -P data/external/ "https://adversarialqa.github.io/data/aqa_v1.0.zip"
 unzip data/external/aqa_v1.0.zip -d data/external/aqa_v1.0
 rm data/external/aqa_v1.0.zip
@@ -72,15 +72,23 @@ rm data/external/aqa_v1.0.zip
 
 Run tests
 ------------
-
 ```bash
 python -m unittest
+```
+
+Generate SQuAD categories
+------------
+```bash
+# SQuAD 1
+python src/analysis/squad_categorisation.py --squad_version 1
+# SQuAD 2
+python src/analysis/squad_categorisation.py --squad_version 2
 ```
 
 Create weighted combination datasets
 ------------
 ```bash
-# 2 copies of SQuAD v1.1 and 3 copies of Adversarial QA dBERT:
+# 2 copies of SQuAD v1.1 and 3 copies of Adversarial QA dBERT:
 python src/data/generate_dataset_combination.py --num_squad 2 --num_adversarial 3 --adversarial_model bert
 ```
 
