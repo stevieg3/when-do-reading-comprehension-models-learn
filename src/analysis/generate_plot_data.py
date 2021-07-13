@@ -138,21 +138,33 @@ def main(squad_version: int, model_filepath: str, seed: int):
     # Add example categories
     # ============================= #
 
-    # Load categories  # TODO Add categories for SQuAD 1
+    # Load categories
     logging.info("Loading categories")
-    squad2_categories = pd.read_csv(
-        'data/processed/squadv2_dev_categories.csv', 
-        usecols=['id','w6h_label','context_length_bin','question_length_bin','answer_mode_length_bin','unanswerable']
-    )
-    logging.info(squad2_categories.shape)
-    logging.info(squad2_categories.head())
+    if squad_version == 1:
+        categories = pd.read_csv(
+            'data/processed/squadv1_dev_categories.csv',
+            usecols=[
+                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin'
+            ]
+        )
+        logging.info(categories.shape)
+        logging.info(categories.head())
+    elif squad_version == 2:
+        categories = pd.read_csv(
+            'data/processed/squadv2_dev_categories.csv',
+            usecols=[
+                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin', 'unanswerable'
+            ]
+        )
+        logging.info(categories.shape)
+        logging.info(categories.head())
 
     # Merge predictions and labels
     combined = predictions_df.merge(labels_df, on='id', how='inner')
     assert combined.shape[0] == predictions_df.shape[0]
 
     # Merge category columns
-    combined = combined.merge(squad2_categories, on='id', how='inner')  # TODO Add categories for SQuAD 1
+    combined = combined.merge(categories, on='id', how='inner')
     assert combined.shape[0] == predictions_df.shape[0]
 
     logging.info(combined.head())
