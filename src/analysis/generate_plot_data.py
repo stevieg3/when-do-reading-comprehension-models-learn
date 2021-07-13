@@ -140,7 +140,10 @@ def main(squad_version: int, model_filepath: str, seed: int):
 
     # Load categories  # TODO Add categories for SQuAD 1
     logging.info("Loading categories")
-    squad2_categories = pd.read_csv('data/processed/squad2_dev_simple_categories.csv')
+    squad2_categories = pd.read_csv(
+        'data/processed/squadv2_dev_categories.csv', 
+        usecols=['id','w6h_label','context_length_bin','question_length_bin','answer_mode_length_bin','unanswerable']
+    )
     logging.info(squad2_categories.shape)
     logging.info(squad2_categories.head())
 
@@ -207,7 +210,7 @@ def main(squad_version: int, model_filepath: str, seed: int):
     generate_metrics_by_category_df(
         full_df=combined,
         overall_metrics_df=overall_f1_perf_df,
-        category_label='w8h_label',
+        category_label='w6h_label',
         save=True,
         savepath=f'data/processed/metrics_by_w6h-{model_name}.csv'
     )
