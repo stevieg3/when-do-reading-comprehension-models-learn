@@ -22,9 +22,6 @@ class TestGeneratePlotData(unittest.TestCase):
         ('tests/data/albert-xlarge-v2-squadv2-wu=100-lr=3e5-bs=32-msl=384-seed=27', [3, 156, 1164, 3084, 5388, 5772])
     ])
     def test_create_filepath_dict(cls, model_filepath, checkpoints):
-        """
-        Check that predictions in live and retro runs contain the same number of players.
-        """
         expected_dict = dict(
             zip(
                 checkpoints,
