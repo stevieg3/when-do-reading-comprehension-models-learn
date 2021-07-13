@@ -207,15 +207,16 @@ def main(squad_version: int, model_filepath: str, seed: int):
 
     model_name = model_filepath.split('/')[-1]
 
-    # Answerable vs unanswerable
-    logging.info('Answerable vs unanswerable')
-    generate_metrics_by_category_df(
-        full_df=combined,
-        overall_metrics_df=overall_f1_perf_df,
-        category_label='unanswerable',
-        save=True,
-        savepath=f'data/processed/metrics_by_unanswerable-{model_name}.csv'
-    )
+    if squad_version == 2:
+        # Answerable vs unanswerable
+        logging.info('Answerable vs unanswerable')
+        generate_metrics_by_category_df(
+            full_df=combined,
+            overall_metrics_df=overall_f1_perf_df,
+            category_label='unanswerable',
+            save=True,
+            savepath=f'data/processed/metrics_by_unanswerable-{model_name}.csv'
+        )
 
     # WWWWWWH
     logging.info('WWWWWWH')
