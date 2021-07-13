@@ -136,7 +136,7 @@ def main(squad_version: int) -> None:
 
     logging.info(squad_df.shape)
     logging.info(squad_df.head())
-    squad_df.to_csv(f'data/processed/squad_v{squad_version}_categories.csv', index=False)
+    squad_df.to_csv(f'data/processed/squadv{squad_version}_dev_categories.csv', index=False)
 
 
 if __name__ == '__main__':
