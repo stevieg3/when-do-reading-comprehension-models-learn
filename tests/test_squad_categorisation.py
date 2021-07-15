@@ -3,12 +3,14 @@ import ast
 
 import pandas as pd
 import numpy as np
+from parameterized import parameterized
 
 from src.analysis.squad_categorisation import \
     add_w6h_category, \
     add_context_length_category, \
     add_question_length_category, \
-    add_answer_length_category
+    add_answer_length_category, \
+    get_majority
 
 
 class TestSquadCategorisation(unittest.TestCase):
@@ -48,3 +50,29 @@ class TestSquadCategorisation(unittest.TestCase):
             cls.answer_test_df['expected_category'],
             cls.answer_test_df['answer_mode_length_bin']
         )
+
+    @parameterized.expand([
+        (
+            [{'text': 'France'}, {'text': 'Italy'}, {'text': 'Spain'}, {'text': 'Spain'}],
+            'Spain'
+        ),
+        (
+            [{'text': 'France'}, {'text': 'Italy'}, {'text': 'France'}, {'text': 'Spain'}, {'text': 'Spain'}],
+            'France'
+        ),
+        (
+            [{'text': 'Italy'}, {'text': 'France'}, {'text': 'France'}, {'text': 'Spain'}, {'text': 'Spain'}],
+            'France'
+        ),
+        (
+            [{'text': 'Italy'}, {'text': 'France'}, {'text': 'Spain'}],
+            'Italy'
+        ),
+        (
+            [{'text': 'Italy'}, {'text': 'Italy'}, {'text': 'France'}, {'text': 'Spain'}, {'text': 'Spain'}],
+            'Italy'
+        ),
+    ])
+    def test_get_majority(cls, input, exp_output):
+        maj_ans = get_majority(input)[0]['text']
+        np.testing.assert_equal(maj_ans, exp_output)

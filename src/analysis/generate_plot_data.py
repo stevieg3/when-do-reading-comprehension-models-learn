@@ -144,7 +144,7 @@ def main(squad_version: int, model_filepath: str, seed: int):
         categories = pd.read_csv(
             'data/processed/squadv1_dev_categories.csv',
             usecols=[
-                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin'
+                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin', 'answer_type'
             ]
         )
         logging.info(categories.shape)
@@ -153,7 +153,7 @@ def main(squad_version: int, model_filepath: str, seed: int):
         categories = pd.read_csv(
             'data/processed/squadv2_dev_categories.csv',
             usecols=[
-                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin', 'unanswerable'
+                'id', 'w6h_label', 'context_length_bin', 'question_length_bin', 'answer_mode_length_bin', 'unanswerable', 'answer_type'
             ]
         )
         logging.info(categories.shape)
@@ -217,6 +217,16 @@ def main(squad_version: int, model_filepath: str, seed: int):
             save=True,
             savepath=f'data/processed/metrics_by_unanswerable-{model_name}.csv'
         )
+
+    # Answer type
+    logging.info('Answer type')
+    generate_metrics_by_category_df(
+        full_df=combined,
+        overall_metrics_df=overall_f1_perf_df,
+        category_label='answer_type',
+        save=True,
+        savepath=f'data/processed/metrics_by_answer_type-{model_name}.csv'
+    )
 
     # WWWWWWH
     logging.info('WWWWWWH')

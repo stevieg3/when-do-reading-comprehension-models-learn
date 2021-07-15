@@ -68,6 +68,15 @@ pip install -r requirements.txt
 wget -P data/external/ "https://adversarialqa.github.io/data/aqa_v1.0.zip"
 unzip data/external/aqa_v1.0.zip -d data/external/aqa_v1.0
 rm data/external/aqa_v1.0.zip
+
+# Download Stanford CoreNLP models
+wget -P data/external/ "https://nlp.stanford.edu/software/stanford-ner-4.2.0.zip"
+unzip data/external/stanford-ner-4.2.0.zip -d data/external/stanford-ner-4.2.0
+rm data/external/stanford-ner-4.2.0.zip
+
+wget -P data/external/ "https://nlp.stanford.edu/software/stanford-tagger-4.2.0.zip"
+unzip data/external/stanford-tagger-4.2.0.zip -d data/external/stanford-tagger-4.2.0
+rm data/external/stanford-tagger-4.2.0.zip
 ```
 
 Run tests
