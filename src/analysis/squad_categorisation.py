@@ -104,26 +104,25 @@ def add_question_length_category(df: pd.DataFrame, question_column: str) -> None
 def add_answer_length_category(df: pd.DataFrame, answer_column: str) -> None:
     """
     Create categories based on length of answer in words. Since there can be multiple answers for a given question we
-    take the modal answer length amongst all possibilities.
+    take the majority vote answer.
 
     :param df: DataFrame containing answers in a single column
     :param answer_column: Name of answer column
     :return: None. Modifies in-place.
     """
-    df['text_lengths'] = df[answer_column].apply(lambda x: [len(y.split()) for y in x])
-    df['answer_mode_length'] = (
-        df['text_lengths']
-        .apply(lambda x: stats.mode(x)[0])
-        .apply(lambda x: x[0] if len(x) > 0 else 0)  # Select first modal value
+    df['text_dict_format'] = df[answer_column].apply(lambda x: [{'text': text} for text in x])
+    df['majority_vote_answer'] = df['text_dict_format'].apply(
+        lambda x: get_majority(x)[0]['text']  # get_majority returns a list with a single dict item
     )
+    df['answer_length'] = df['majority_vote_answer'].apply(lambda x: len(x.split()))
 
-    df['answer_mode_length_bin'] = np.where(
-        df['answer_mode_length'] > 9,
+    df['answer_length_bin'] = np.where(
+        df['answer_length'] > 9,
         '>9',
-        df['answer_mode_length'].astype(str)
+        df['answer_length'].astype(str)
     )
 
-    df.drop(columns=['text_lengths', 'answer_mode_length'], inplace=True)
+    df.drop(columns=['text_dict_format', 'majority_vote_answer', 'answer_length'], inplace=True)
 
 
 def get_majority(answer_list: list) -> list:
