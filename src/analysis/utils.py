@@ -20,7 +20,7 @@ SQUAD_V2_METRIC = load_metric("squad_v2")
 
 
 def load_squadv2_dev_as_df():
-    logging.info("Loading SQuAD v2 data as DataFrame")
+    logging.info("Loading SQuAD v2 dev data as DataFrame")
     squad_v2_val = load_dataset('squad_v2', split='validation')
 
     squad_v2_val_df = pd.DataFrame(squad_v2_val)
@@ -32,7 +32,7 @@ def load_squadv2_dev_as_df():
 
 
 def load_squadv1_dev_as_df():
-    logging.info("Loading SQuAD v1 data as DataFrame")
+    logging.info("Loading SQuAD v1 dev data as DataFrame")
     squad_v1_val = load_dataset('squad', split='validation')
 
     squad_v1_val_df = pd.DataFrame(squad_v1_val)
@@ -41,6 +41,30 @@ def load_squadv1_dev_as_df():
     logging.info(squad_v1_val_df.head())
 
     return squad_v1_val_df
+
+
+def load_squadv2_train_as_df():
+    logging.info("Loading SQuAD v2 train data as DataFrame")
+    squad_v2_train = load_dataset('squad_v2', split='train')
+
+    squad_v2_train_df = pd.DataFrame(squad_v2_train)
+
+    logging.info(squad_v2_train_df.shape)
+    logging.info(squad_v2_train_df.head())
+
+    return squad_v2_train_df
+
+
+def load_squadv1_train_as_df():
+    logging.info("Loading SQuAD v1 train data as DataFrame")
+    squad_v1_train = load_dataset('squad', split='train')
+
+    squad_v1_train_df = pd.DataFrame(squad_v1_train)
+
+    logging.info(squad_v1_train_df.shape)
+    logging.info(squad_v1_train_df.head())
+
+    return squad_v1_train_df
 
 
 def squad2_evaluation(id_list, prediction_text_list, answers_list):

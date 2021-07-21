@@ -12,11 +12,15 @@ from nltk.tag.stanford import \
 from src.analysis.utils import \
     load_squadv1_dev_as_df, \
     load_squadv2_dev_as_df, \
+    load_squadv1_train_as_df, \
+    load_squadv2_train_as_df, \
     classify_text
 
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 NUM_NEGATIVE_EXAMPLES_SQUAD_2_DEV = 5945  # https://arxiv.org/pdf/1806.03822.pdf
+
+NUM_NEGATIVE_EXAMPLES_SQUAD_2_TRAIN = 43498  # https://arxiv.org/pdf/1806.03822.pdf
 
 W6H_LABELS = ['what', 'how', 'who', 'when', 'which', 'where', 'why']
 
@@ -186,13 +190,26 @@ def add_answer_type_category(df: pd.DataFrame, answer_column: str) -> pd.DataFra
     return df[['id', 'answer_type']]
 
 
-def main(squad_version: int) -> None:
-    if squad_version == 1:
-        squad_df = load_squadv1_dev_as_df()
-    elif squad_version == 2:
-        squad_df = load_squadv2_dev_as_df()
+def main(squad_version: int, split: str) -> None:
+
+    if split == 'train':
+        if squad_version == 1:
+            squad_df = load_squadv1_train_as_df()
+        elif squad_version == 2:
+            squad_df = load_squadv2_train_as_df()
+        else:
+            raise ValueError("squad_version must be 1 or 2")
+
+    elif split == 'validation':
+        if squad_version == 1:
+            squad_df = load_squadv1_dev_as_df()
+        elif squad_version == 2:
+            squad_df = load_squadv2_dev_as_df()
+        else:
+            raise ValueError("squad_version must be 1 or 2")
+
     else:
-        raise ValueError("squad_version must be 1 or 2")
+        raise ValueError("Invalid split value. Must be one of 'train' or 'validation'")
 
     # Unpack answers column into answer_start and text columns
     squad_df = pd.concat(
@@ -207,7 +224,10 @@ def main(squad_version: int) -> None:
             1,
             0
         )
-        assert squad_df['unanswerable'].sum() == NUM_NEGATIVE_EXAMPLES_SQUAD_2_DEV
+        if split == 'train':
+            assert squad_df['unanswerable'].sum() == NUM_NEGATIVE_EXAMPLES_SQUAD_2_TRAIN
+        elif split == 'validation':
+            assert squad_df['unanswerable'].sum() == NUM_NEGATIVE_EXAMPLES_SQUAD_2_DEV
 
     # Add category columns
     if squad_version == 2:
@@ -236,14 +256,21 @@ def main(squad_version: int) -> None:
 
     logging.info(squad_df.shape)
     logging.info(squad_df.head())
-    squad_df.to_csv(f'data/processed/squadv{squad_version}_dev_categories.csv', index=False)
+
+    if split == 'train':
+        savepath = f'data/processed/squadv{squad_version}_train_categories.csv'
+    elif split == 'validation':
+        savepath = f'data/processed/squadv{squad_version}_dev_categories.csv'
+
+    squad_df.to_csv(savepath, index=False)
     logging.info('Saved to CSV')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--squad_version", type=int)
+    parser.add_argument("--split", type=str)
 
     args = parser.parse_args()
 
-    main(squad_version=args.squad_version)
+    main(squad_version=args.squad_version, split=args.split)
