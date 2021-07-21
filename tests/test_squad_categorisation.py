@@ -45,10 +45,11 @@ class TestSquadCategorisation(unittest.TestCase):
         )
 
     def test_add_answer_length_category(cls):
-        add_answer_length_category(df=cls.answer_test_df, answer_column='text')
+        cls.answer_test_df['id'] = cls.answer_test_df.index + 1
+        ans_len_cat_df = add_answer_length_category(df=cls.answer_test_df, answer_column='text')
         np.testing.assert_array_equal(
             cls.answer_test_df['expected_category'],
-            cls.answer_test_df['answer_mode_length_bin']
+            ans_len_cat_df['answer_length_bin']
         )
 
     @parameterized.expand([
