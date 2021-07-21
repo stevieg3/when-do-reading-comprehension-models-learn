@@ -101,15 +101,16 @@ def add_question_length_category(df: pd.DataFrame, question_column: str) -> None
     df.drop(columns='question_length', inplace=True)
 
 
-def add_answer_length_category(df: pd.DataFrame, answer_column: str) -> None:
+def add_answer_length_category(df: pd.DataFrame, answer_column: str) -> pd.DataFrame:
     """
     Create categories based on length of answer in words. Since there can be multiple answers for a given question we
     take the majority vote answer.
 
     :param df: DataFrame containing answers in a single column
     :param answer_column: Name of answer column
-    :return: None. Modifies in-place.
+    :return: DataFrame with ID and answer_length_bin
     """
+    df = df.copy()
     df['text_dict_format'] = df[answer_column].apply(lambda x: [{'text': text} for text in x])
     df['majority_vote_answer'] = df['text_dict_format'].apply(
         lambda x: get_majority(x)[0]['text']  # get_majority returns a list with a single dict item
@@ -122,7 +123,7 @@ def add_answer_length_category(df: pd.DataFrame, answer_column: str) -> None:
         df['answer_length'].astype(str)
     )
 
-    df.drop(columns=['text_dict_format', 'majority_vote_answer', 'answer_length'], inplace=True)
+    return df[['id', 'answer_length_bin']]
 
 
 def get_majority(answer_list: list) -> list:
@@ -245,11 +246,25 @@ def main(squad_version: int, split: str) -> None:
     assert shape_before[0] == shape_after[0]
     squad_df['answer_type'].fillna("UNANS", inplace=True)
 
+    if squad_version == 2:
+        ans_type_df = add_answer_length_category(
+            df=squad_df.copy()[squad_df['unanswerable'] == 0],
+            answer_column='text'
+        )
+    else:
+        ans_type_df = add_answer_length_category(
+            df=squad_df,
+            answer_column='text'
+        )
+    shape_before = squad_df.shape
+    squad_df = squad_df.merge(ans_type_df, on='id', how='left')
+    shape_after = squad_df.shape
+    assert shape_before[0] == shape_after[0]
+    squad_df['answer_type'].fillna("0", inplace=True)
+
     add_w6h_category(squad_df, 'question')
 
     add_context_length_category(squad_df, 'context')
-
-    add_answer_length_category(squad_df, 'text')
 
     add_question_length_category(squad_df, 'question')
 
