@@ -25,13 +25,13 @@ NUM_NEGATIVE_EXAMPLES_SQUAD_2_TRAIN = 43498  # https://arxiv.org/pdf/1806.03822.
 W6H_LABELS = ['what', 'how', 'who', 'when', 'which', 'where', 'why']
 
 CONTEXT_LENGTH_BINS = {
-    'bins': list(range(0, 501, 100)) + [999999],  # bins are right inclusive e.g. 500 in '400-500'
-    'labels': ['0-100', '100-200', '200-300', '300-400', '400-500', '>500']
+    'bins': list(range(0, 201, 50)) + [999999],  # bins are right inclusive e.g. 200 in '150-200'
+    'labels': ['0-50', '50-100', '100-150', '150-200', '>200']
 }
 
 QUESTION_LENGTH_BINS = {
-    'bins': list(range(0, 26, 5)) + [999999],
-    'labels': ['0-5', '5-10', '10-15', '15-20', '20-25', '>25']
+    'bins': list(range(0, 16, 5)) + [999999],
+    'labels': ['0-5', '5-10', '10-15', '>15']
 }
 
 NER_TAGGER = StanfordNERTagger(

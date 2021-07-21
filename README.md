@@ -89,9 +89,11 @@ Generate SQuAD categories
 ------------
 ```bash
 # SQuAD 1
-python src/analysis/squad_categorisation.py --squad_version 1
+python src/analysis/squad_categorisation.py --squad_version 1 --split train
+python src/analysis/squad_categorisation.py --squad_version 1 --split validation
 # SQuAD 2
-python src/analysis/squad_categorisation.py --squad_version 2
+python src/analysis/squad_categorisation.py --squad_version 2 --split train
+python src/analysis/squad_categorisation.py --squad_version 2 --split validation
 ```
 
 Create weighted combination datasets
