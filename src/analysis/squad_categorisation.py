@@ -260,7 +260,7 @@ def main(squad_version: int, split: str) -> None:
     squad_df = squad_df.merge(ans_type_df, on='id', how='left')
     shape_after = squad_df.shape
     assert shape_before[0] == shape_after[0]
-    squad_df['answer_type'].fillna("0", inplace=True)
+    squad_df['answer_length_bin'].fillna("0", inplace=True)
 
     add_w6h_category(squad_df, 'question')
 
