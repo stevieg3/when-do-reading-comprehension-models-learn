@@ -7,49 +7,88 @@ MODEL_PATH = '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/m
 
 experiments = [
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28',
-        'dataset_config_name': 'dbidaf',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbidaf ',
+        'version_2_with_negative': '',
+        'savename': 'dbidaf'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29',
-        'dataset_config_name': 'dbidaf',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbidaf ',
+        'version_2_with_negative': '',
+        'savename': 'dbidaf'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30',
-        'dataset_config_name': 'dbidaf',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbidaf ',
+        'version_2_with_negative': '',
+        'savename': 'dbidaf'
     },
         {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28',
-        'dataset_config_name': 'dbert',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbert ',
+        'version_2_with_negative': '',
+        'savename': 'dbert'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29',
-        'dataset_config_name': 'dbert',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbert ',
+        'version_2_with_negative': '',
+        'savename': 'dbert'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30',
-        'dataset_config_name': 'dbert',
-        'version_2_with_negative': ''
-    },
-        {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=28',
-        'dataset_config_name': 'droberta',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name dbert ',
+        'version_2_with_negative': '',
+        'savename': 'dbert'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=29',
-        'dataset_config_name': 'droberta',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name droberta ',
+        'version_2_with_negative': '',
+        'savename': 'droberta'
     },
     {
-        'name': 'albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed=30',
-        'dataset_config_name': 'droberta',
-        'version_2_with_negative': ''
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name droberta ',
+        'version_2_with_negative': '',
+        'savename': 'droberta'
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'adversarial_qa',
+        'dataset_config_name': '--dataset_config_name droberta ',
+        'version_2_with_negative': '',
+        'savename': 'droberta'
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27',
+        'dataset_name': 'squad',
+        'dataset_config_name': '',
+        'version_2_with_negative': '',
+        'savename': 'squad'
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28',
+        'dataset_name': 'squad',
+        'dataset_config_name': '',
+        'version_2_with_negative': '',
+        'savename': 'squad'
+    },
+    {
+        'name': 'albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29',
+        'dataset_name': 'squad',
+        'dataset_config_name': '',
+        'version_2_with_negative': '',
+        'savename': 'squad'
     }
 ]
 
@@ -61,16 +100,16 @@ for checkpoint in SAVE_STEPS_SCHEDULE:
     this_commands = [
         f"python src/models/run_qa.py "
         f"--model_name_or_path {MODEL_PATH.format(e['name']) + f'checkpoint-{checkpoint}'} "
-        f"--dataset_name adversarial_qa "
-        f"--dataset_config_name {e['dataset_config_name']} "
+        f"--dataset_name {e['dataset_name']} "
+        f"{e['dataset_config_name']}"
         f"{e['version_2_with_negative']}"
         f"--do_eval "
         f"--per_device_eval_batch_size 128 "
-        f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/{e['name']}-{e['dataset_config_name']}/checkpoint-{checkpoint} "
+        f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/{e['name']}-{e['savename']}/checkpoint-{checkpoint} "
         f"--overwrite_output_dir "
         f"--overwrite_cache "
         f"--report_to none "
-        f"> logs/predictions/{e['name'] + '-' + e['dataset_config_name'] + '-checkpoint={}'.format(checkpoint) + '.log'} 2>&1"
+        f"> logs/predictions/{e['name'] + '-' + e['savename'] + '-checkpoint={}'.format(checkpoint) + '.log'} 2>&1"
         for e in experiments
     ]
 
@@ -109,5 +148,5 @@ cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
     job_file += '\ndate\n'
 
     # Save the job file
-    with open(f'jobs/eval/albert-xlarge-v2-squadv1-eval-adversarialqa.job', 'w') as f:
+    with open(f'jobs/eval/albert-xlarge-v2-squadv1-adversarialall-eval-squadv1-adversarialqa.job', 'w') as f:
         f.write(job_file)
