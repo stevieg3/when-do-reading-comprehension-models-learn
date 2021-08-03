@@ -1,0 +1,37 @@
+#!/bin/bash -l
+
+#$ -cwd
+#$ -S /bin/bash
+#$ -l tmem=8G
+#$ -t 1-12
+#$ -l h_rt=24:00:00
+#$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
+#$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
+
+hostname
+date
+
+# Activate conda environment
+conda activate rclearn
+
+export LANG="en_US.utf8"
+export LANGUAGE="en_US:en"
+export PYTHONPATH=/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
+export HF_HOME=/SAN/intelsys/rclearn/cache
+
+cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
+
+test $SGE_TASK_ID -eq 1 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbert --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-dbert --seed 27 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-dbert.log 2>&1
+test $SGE_TASK_ID -eq 2 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbidaf --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-dbidaf --seed 27 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-dbidaf.log 2>&1
+test $SGE_TASK_ID -eq 3 && sleep 10 && python src/analysis/per_example_metrics.py --dataset droberta --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-droberta --seed 27 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-droberta.log 2>&1
+test $SGE_TASK_ID -eq 4 && sleep 10 && python src/analysis/per_example_metrics.py --dataset squad --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-squad --seed 27 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=27-squad.log 2>&1
+test $SGE_TASK_ID -eq 5 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbert --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-dbert --seed 28 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-dbert.log 2>&1
+test $SGE_TASK_ID -eq 6 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbidaf --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-dbidaf --seed 28 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-dbidaf.log 2>&1
+test $SGE_TASK_ID -eq 7 && sleep 10 && python src/analysis/per_example_metrics.py --dataset droberta --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-droberta --seed 28 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-droberta.log 2>&1
+test $SGE_TASK_ID -eq 8 && sleep 10 && python src/analysis/per_example_metrics.py --dataset squad --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-squad --seed 28 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=28-squad.log 2>&1
+test $SGE_TASK_ID -eq 9 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbert --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-dbert --seed 29 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-dbert.log 2>&1
+test $SGE_TASK_ID -eq 10 && sleep 10 && python src/analysis/per_example_metrics.py --dataset dbidaf --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-dbidaf --seed 29 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-dbidaf.log 2>&1
+test $SGE_TASK_ID -eq 11 && sleep 10 && python src/analysis/per_example_metrics.py --dataset droberta --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-droberta --seed 29 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-droberta.log 2>&1
+test $SGE_TASK_ID -eq 12 && sleep 10 && python src/analysis/per_example_metrics.py --dataset squad --model_filepath predictions/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-squad --seed 29 > logs/plot_data/per_example_metrics/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed=29-squad.log 2>&1
+
+date
