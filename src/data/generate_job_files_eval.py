@@ -136,6 +136,7 @@ conda activate rclearn
 
 export LANG="en_US.utf8"
 export LANGUAGE="en_US:en"
+export HF_HOME=/SAN/intelsys/rclearn/cache
 
 cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
 """
