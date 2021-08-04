@@ -41,15 +41,17 @@ def main(model_filepath: str, seed: int, dataset: str):
             row[['answers']]
         )
         metrics['id'] = row['id']
+        metrics['checkpoint'] = row['checkpoint']
+        metrics['seed'] = row['seed']
         metric_list.append(metrics)
 
     metrics_df = pd.DataFrame(metric_list)
-    combined = combined.merge(metrics_df, on='id')
+    combined = combined.merge(metrics_df, on=['id', 'checkpoint', 'seed'])
     combined = combined[['id', 'checkpoint', 'seed', 'exact_match', 'f1']]
     combined['dataset'] = dataset
 
     combined.to_csv(
-        f'data/processed/per_example_metrics-squadv1-adversarialall-dataset={dataset}-seed={seed}',
+        f'data/processed/per_example_metrics-squadv1-adversarialall-dataset={dataset}-seed={seed}.csv',
         index=False
     )
 
