@@ -12,15 +12,15 @@ for seed in SEEDS:
     for checkpoint in SAVE_STEPS_SCHEDULE:
         this_commands = [
             f"python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py "
-            f"--model_name_or_path /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/models/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
+            f"--model_name_or_path /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/models/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
             f"--do_predict "
             f"--test_file /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/src/analysis/checklist/squad_ans.json "
             f"--per_device_eval_batch_size 64 "
-            f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
+            f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
             f"--overwrite_output_dir "
             f"--overwrite_cache "
             f"--report_to none "
-            f"> logs/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}-checkpoint={checkpoint}.log 2>&1"
+            f"> logs/checklist/albert-xlarge-v2-squadv1-adversarialall-wu=100-lr=3e5-bs=32-msl=384-seed={seed}-checkpoint={checkpoint}.log 2>&1"
         ]
 
         commands += this_commands
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
 #$ -cwd
 #$ -S /bin/bash
-#$ -l tmem=16G
+#$ -l tmem=4G
 #$ -t 1-{len(commands)}
 #$ -l h_rt=48:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out

@@ -2,9 +2,9 @@
 
 #$ -cwd
 #$ -S /bin/bash
-#$ -l tmem=8G
+#$ -l tmem=16G
 #$ -t 1-12
-#$ -l h_rt=24:00:00
+#$ -l h_rt=48:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
 #$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
 
