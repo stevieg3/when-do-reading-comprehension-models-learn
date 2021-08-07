@@ -11,7 +11,7 @@ commands = []
 for seed in SEEDS:
     for checkpoint in SAVE_STEPS_SCHEDULE:
         this_commands = [
-            f"python -m torch.distributed.launch --nproc_per_node=2 src/models/run_qa.py "
+            f"python src/models/run_qa.py "
             f"--model_name_or_path /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/models/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
             f"--do_predict "
             f"--test_file /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/src/analysis/checklist/squad_ans.json "
@@ -37,8 +37,6 @@ if __name__ == '__main__':
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
 #$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
 #$ -l gpu=true
-#$ -pe gpu 2
-#$ -R y
 
 hostname
 date
