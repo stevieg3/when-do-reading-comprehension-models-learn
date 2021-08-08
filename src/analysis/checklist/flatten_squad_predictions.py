@@ -28,5 +28,5 @@ flat_preds = list(preds_dict.values())
 
 # Save output
 with open(os.path.join(file_dir, filename+'_flat.txt'), 'w') as f:
-    f.writelines(s + '\n' for s in flat_preds)
+    f.writelines(s + '\n' for s in [x.replace('\n', '\\n') for x in flat_preds])
 
