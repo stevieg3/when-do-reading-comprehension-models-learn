@@ -2,7 +2,7 @@
 
 #$ -cwd
 #$ -S /bin/bash
-#$ -l tmem=16G
+#$ -l tmem=4G
 #$ -t 1-1
 #$ -l h_rt=01:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
