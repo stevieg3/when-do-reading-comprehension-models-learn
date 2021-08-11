@@ -1,8 +1,9 @@
+*.zip
 *array_files/
 *checklist_results.txt
 *checklist_results_summary.txt
 *predict_predictions_flat.txt
-*models/
+/models/
 *.lock
 *array.err
 *array.out

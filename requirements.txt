@@ -3,3 +3,4 @@ wandb==0.10.31
 jupyterlab==3.0.16
 parameterized==0.8.1
 datefinder==0.7.1
+tslearn==0.5.1.0

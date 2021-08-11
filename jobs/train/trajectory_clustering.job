@@ -1,0 +1,52 @@
+#!/bin/bash -l
+
+#$ -cwd
+#$ -S /bin/bash
+#$ -l tmem=16G
+#$ -t 1-27
+#$ -l h_rt=48:00:00
+#$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array_files
+#$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array_files
+
+hostname
+date
+
+# Activate conda environment
+conda activate rclearn
+
+export LANG="en_US.utf8"
+export LANGUAGE="en_US:en"
+export PYTHONPATH=/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
+export HF_HOME=/SAN/intelsys/rclearn/cache
+
+cd /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn
+
+test $SGE_TASK_ID -eq 1 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 27 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=27-n_clusters=4.csv
+test $SGE_TASK_ID -eq 2 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 27 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=27-n_clusters=7.csv
+test $SGE_TASK_ID -eq 3 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 27 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=27-n_clusters=10.csv
+test $SGE_TASK_ID -eq 4 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 28 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=28-n_clusters=4.csv
+test $SGE_TASK_ID -eq 5 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 28 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=28-n_clusters=7.csv
+test $SGE_TASK_ID -eq 6 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 28 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=28-n_clusters=10.csv
+test $SGE_TASK_ID -eq 7 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 29 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=29-n_clusters=4.csv
+test $SGE_TASK_ID -eq 8 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 29 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=29-n_clusters=7.csv
+test $SGE_TASK_ID -eq 9 && sleep 10 && python src/models/kmeans.py --seed 27 --km_seed 29 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=27-km_seed=29-n_clusters=10.csv
+test $SGE_TASK_ID -eq 10 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 27 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=27-n_clusters=4.csv
+test $SGE_TASK_ID -eq 11 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 27 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=27-n_clusters=7.csv
+test $SGE_TASK_ID -eq 12 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 27 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=27-n_clusters=10.csv
+test $SGE_TASK_ID -eq 13 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 28 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=28-n_clusters=4.csv
+test $SGE_TASK_ID -eq 14 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 28 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=28-n_clusters=7.csv
+test $SGE_TASK_ID -eq 15 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 28 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=28-n_clusters=10.csv
+test $SGE_TASK_ID -eq 16 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 29 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=29-n_clusters=4.csv
+test $SGE_TASK_ID -eq 17 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 29 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=29-n_clusters=7.csv
+test $SGE_TASK_ID -eq 18 && sleep 10 && python src/models/kmeans.py --seed 28 --km_seed 29 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=28-km_seed=29-n_clusters=10.csv
+test $SGE_TASK_ID -eq 19 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 27 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=27-n_clusters=4.csv
+test $SGE_TASK_ID -eq 20 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 27 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=27-n_clusters=7.csv
+test $SGE_TASK_ID -eq 21 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 27 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=27-n_clusters=10.csv
+test $SGE_TASK_ID -eq 22 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 28 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=28-n_clusters=4.csv
+test $SGE_TASK_ID -eq 23 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 28 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=28-n_clusters=7.csv
+test $SGE_TASK_ID -eq 24 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 28 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=28-n_clusters=10.csv
+test $SGE_TASK_ID -eq 25 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 29 --n_clusters 4 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=29-n_clusters=4.csv
+test $SGE_TASK_ID -eq 26 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 29 --n_clusters 7 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=29-n_clusters=7.csv
+test $SGE_TASK_ID -eq 27 && sleep 10 && python src/models/kmeans.py --seed 29 --km_seed 29 --n_clusters 10 --max_iter 300 --savepath 'data/processed/squadv1-adversarialall-clusters-seed=29-km_seed=29-n_clusters=10.csv
+
+date
