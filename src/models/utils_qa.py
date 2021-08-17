@@ -28,6 +28,14 @@ from tqdm.auto import tqdm
 logger = logging.getLogger(__name__)
 
 
+def _compute_softmax(scores):
+    """Compute softmax over raw logits."""
+    scores = np.array(scores)
+    exp_scores = np.exp(scores - np.max(scores))
+    probs = exp_scores / exp_scores.sum()
+    return probs
+
+
 def postprocess_qa_predictions(
     examples,
     features,
@@ -86,6 +94,7 @@ def postprocess_qa_predictions(
 
     # The dictionaries we have to fill.
     all_predictions = collections.OrderedDict()
+    all_prediction_probs = collections.OrderedDict()
     all_nbest_json = collections.OrderedDict()
     if version_2_with_negative:
         scores_diff_json = collections.OrderedDict()
@@ -107,6 +116,9 @@ def postprocess_qa_predictions(
             # We grab the predictions of the model for this feature.
             start_logits = all_start_logits[feature_index]
             end_logits = all_end_logits[feature_index]
+            #MAXEDIT: softmax the logits to calculate the probabilities
+            softmaxed_start = _compute_softmax(start_logits)
+            softmaxed_end = _compute_softmax(end_logits)
             # This is what will allow us to map some the positions in our logits to span of texts in the original
             # context.
             offset_mapping = features[feature_index]["offset_mapping"]
@@ -122,6 +134,9 @@ def postprocess_qa_predictions(
                     "score": feature_null_score,
                     "start_logit": start_logits[0],
                     "end_logit": end_logits[0],
+                    "model_conf_start": softmaxed_start[0],
+                    "model_conf_end": softmaxed_end[0],
+                    "model_conf": softmaxed_start[0] * softmaxed_end[0],
                 }
 
             # Go through all possibilities for the `n_best_size` greater start and end logits.
@@ -151,6 +166,9 @@ def postprocess_qa_predictions(
                             "score": start_logits[start_index] + end_logits[end_index],
                             "start_logit": start_logits[start_index],
                             "end_logit": end_logits[end_index],
+                            "model_conf_start": softmaxed_start[start_index],
+                            "model_conf_end": softmaxed_end[end_index],
+                            "model_conf": softmaxed_start[start_index] * softmaxed_end[end_index],
                         }
                     )
         if version_2_with_negative:
@@ -174,7 +192,8 @@ def postprocess_qa_predictions(
         # In the very rare edge case we have not a single non-null prediction, we create a fake prediction to avoid
         # failure.
         if len(predictions) == 0 or (len(predictions) == 1 and predictions[0]["text"] == ""):
-            predictions.insert(0, {"text": "empty", "start_logit": 0.0, "end_logit": 0.0, "score": 0.0})
+            predictions.insert(0, {"text": "empty", "start_logit": -1.0, "end_logit": -1.0, "score": -1.0,
+                                   "model_conf_start": -1.0, "model_conf_end": -1.0, "model_conf": -1.0})
 
         # Compute the softmax of all scores (we do it with numpy to stay independent from torch/tf in this file, using
         # the LogSumExp trick).
@@ -210,12 +229,18 @@ def postprocess_qa_predictions(
             for pred in predictions
         ]
 
+        # Save all the details of the best predictions
+        all_prediction_probs[example["id"]] = dict(all_nbest_json[example["id"]][0])
+
     # If we have an output_dir, let's save all those dicts.
     if output_dir is not None:
         assert os.path.isdir(output_dir), f"{output_dir} is not a directory."
 
         prediction_file = os.path.join(
             output_dir, "predictions.json" if prefix is None else f"{prefix}_predictions.json"
+        )
+        prediction_probs_file = os.path.join(
+            output_dir, "predictions.json" if prefix is None else f"{prefix}_predictions_full.json"
         )
         nbest_file = os.path.join(
             output_dir, "nbest_predictions.json" if prefix is None else f"{prefix}_nbest_predictions.json"
@@ -228,6 +253,9 @@ def postprocess_qa_predictions(
         logger.info(f"Saving predictions to {prediction_file}.")
         with open(prediction_file, "w") as writer:
             writer.write(json.dumps(all_predictions, indent=4) + "\n")
+        logger.info(f"Saving full predictions to {prediction_probs_file}.")
+        with open(prediction_probs_file, "w") as writer:
+            writer.write(json.dumps(all_prediction_probs, indent=4) + "\n")
         logger.info(f"Saving nbest_preds to {nbest_file}.")
         with open(nbest_file, "w") as writer:
             writer.write(json.dumps(all_nbest_json, indent=4) + "\n")
