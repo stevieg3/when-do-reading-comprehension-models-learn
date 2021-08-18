@@ -105,7 +105,7 @@ for checkpoint in SAVE_STEPS_SCHEDULE:
         f"{e['version_2_with_negative']}"
         f"--do_eval "
         f"--per_device_eval_batch_size 128 "
-        f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/{e['name']}-{e['savename']}/checkpoint-{checkpoint} "
+        f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/full/{e['name']}-{e['savename']}/checkpoint-{checkpoint} "
         f"--overwrite_output_dir "
         f"--overwrite_cache "
         f"--report_to none "
@@ -121,11 +121,11 @@ if __name__ == '__main__':
 
 #$ -cwd
 #$ -S /bin/bash
-#$ -l tmem=16G
+#$ -l tmem=4G
 #$ -t 1-{len(commands)}
 #$ -l h_rt=24:00:00
-#$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
-#$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
+#$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array_files
+#$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array_files
 #$ -l gpu=true
 
 hostname
