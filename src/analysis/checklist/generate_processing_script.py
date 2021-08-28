@@ -13,13 +13,13 @@ extract_commands = []
 for seed in SEEDS:
     for checkpoint in SAVE_STEPS_SCHEDULE:
         flatten_commands.append(
-            f"python src/analysis/checklist/flatten_squad_predictions.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/predict_predictions.json'"
+            f"python src/analysis/checklist/flatten_squad_predictions.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/predict_predictions.json'"
         )
         checklist_commands.append(
-            f"python src/analysis/checklist/run_squad.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/predict_predictions_flat.txt' > '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/checklist_results.txt'",
+            f"python src/analysis/checklist/run_squad.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/predict_predictions_flat.txt' > '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/checklist_results.txt'",
         )
         extract_commands.append(
-            f"python src/analysis/checklist/extract_results_from_checklist_summary.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-squadv1-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/checklist_results.txt'"
+            f"python src/analysis/checklist/extract_results_from_checklist_summary.py '/SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint}/checklist_results.txt'"
         )
 
 

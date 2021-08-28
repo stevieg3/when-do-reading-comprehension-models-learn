@@ -15,7 +15,7 @@ for seed in SEEDS:
             f"--model_name_or_path /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/models/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
             f"--do_predict "
             f"--test_file /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/src/analysis/checklist/squad_ans.json "
-            f"--per_device_eval_batch_size 64 "
+            f"--per_device_eval_batch_size 100 "
             f"--output_dir /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/predictions/checklist/albert-xlarge-v2-adversarial_qa_all-wu=100-lr=3e5-bs=32-msl=384-seed={seed}/checkpoint-{checkpoint} "
             f"--overwrite_output_dir "
             f"--overwrite_cache "
@@ -31,9 +31,9 @@ if __name__ == '__main__':
 
 #$ -cwd
 #$ -S /bin/bash
-#$ -l tmem=4G
+#$ -l tmem=6G
 #$ -t 1-{len(commands)}
-#$ -l h_rt=5:00:00
+#$ -l h_rt=8:00:00
 #$ -o /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.out
 #$ -e /SAN/intelsys/rclearn/when-do-reading-comprehension-models-learn/array.err
 #$ -l gpu=true
