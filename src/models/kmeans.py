@@ -36,7 +36,7 @@ def load_per_example_metrics_df(seed: int) -> pd.DataFrame:
     return example_metric_df
 
 
-def _prepare_data(per_example_metrics_df: pd.DataFrame) -> (np.array, dict):
+def _prepare_data(per_example_metrics_df: pd.DataFrame, value: str = 'f1') -> (np.array, dict):
     """
     Prepare input array for k-means. Input is of dim (n_ts, sz, d) where n_ts=number of time series; sz=length of
     time series; d=dimensionality of time series
@@ -64,7 +64,7 @@ def _prepare_data(per_example_metrics_df: pd.DataFrame) -> (np.array, dict):
 
         idx_to_id_dict[idx] = _id
 
-        X[idx, :, :] = per_example_metrics_df[per_example_metrics_df['id'] == _id]['f1'].values.reshape(-1, 1)
+        X[idx, :, :] = per_example_metrics_df[per_example_metrics_df['id'] == _id][value].values.reshape(-1, 1)
 
     logging.info(X.shape)
 
