@@ -76,8 +76,8 @@ def get_kmeans_clusters(
         n_clusters: int,
         model_seed: int,
         km_seed: int,
-        value: str = 'f1',
-        max_iter: int = 300
+        max_iter: int = 300,
+        value: str = 'f1'
 ) -> pd.DataFrame:
 
     X, idx_to_id_dict = _prepare_data(per_example_metrics_df, value=value)
